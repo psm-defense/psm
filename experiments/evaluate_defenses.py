@@ -121,7 +121,7 @@ class ExperimentConfig:
     defense_configs: List[DefenseConfig] = None
 
     # Model configuration
-    config_path: str = "config/config_azure.yaml"
+    config_path: str = "config/config.yaml"
 
     # Experiment parameters
     max_victim_samples: int = 20

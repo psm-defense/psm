@@ -53,7 +53,7 @@ pip install -r requirements.txt
 ```
 
 4. Configure API keys:
-Create a `config/config_azure.yaml` file with your LLM API configurations:
+Create a `config/config.yaml` file with your LLM API configurations:
 ```yaml
 llms:
   gpt-4o-mini:
