@@ -167,7 +167,9 @@ results/cache.xlsx
 !data/**/*.json
 !data/**/*.jsonl
 
-# Keep config files
-!config/**/*.yaml
+# Ignore config files with secrets
+config/*.yaml
+
+# Keep config Python files
 !config/**/*.py
 
