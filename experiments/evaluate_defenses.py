@@ -1127,14 +1127,6 @@ async def main():
         Dataset.SYSTEM_PROMPT_LEAKAGE, TargetModel.GPT_5_MINI
     ))
 
-    # Uncomment to add more models:
-    # defense_configs.extend(create_defense_configs(
-    #     Dataset.UNNATURAL_TEST, TargetModel.GPT_4O_MINI
-    # ))
-    # defense_configs.extend(create_defense_configs(
-    #     Dataset.SYSTEM_PROMPT_LEAKAGE, TargetModel.GPT_4O_MINI
-    # ))
-
     # Create experiment configuration
     config = ExperimentConfig(
         max_victim_samples=30,

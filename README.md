@@ -24,7 +24,7 @@ This repository implements **Prompt Sensitivity Minimization (PSM)**, a defense 
 - [Configuration](#configuration)
 - [Experiments](#experiments)
 - [Results](#results)
-- [Citation](#citation)
+- [Reproducibility](#reproducibility)
 
 ## Installation
 
@@ -339,3 +339,102 @@ Results are saved in the `results/` directory:
 - `per_prompt_results.xlsx`: Aggregated results per attack prompt
 - `experiment_summary.json`: Summary of all experiments
 - `cache.xlsx`: Cached results for reproducibility
+
+## Reproducibility
+
+This section provides detailed instructions for reproducing the experimental results from this repository.
+
+### Configuration
+
+1. **Set up API Keys**:
+Create `config/config.yaml` with your LLM API configurations:
+```yaml
+llms:
+  gpt-4o-mini:
+    model: "gpt-4o-mini"
+    model_provider: "openai"
+    api_key: "your-api-key"
+    temperature: 0
+  gpt-4o:
+    model: "gpt-4o"
+    model_provider: "openai"
+    api_key: "your-api-key"
+    temperature: 0
+  gpt-5-mini:
+    model: "gpt-5-mini"
+    model_provider: "openai"
+    api_key: "your-api-key"
+    temperature: 0
+  sentence-transformers/all-MiniLM-L6-v2:
+    model_provider: "huggingface"
+```
+
+2. **Verify Data Files**:
+Ensure the following data files exist:
+- `data/victim_prompts/unnatural-test.jsonl`
+- `data/victim_prompts/syntentic-system-prompt.jsonl`
+- `data/attack_prompts/raccon.json`
+- `data/attack_prompts/raccon_language.json`
+- `data/attack_prompts/liang.json`
+- `data/attack_prompts/zhang.json`
+
+### Reproducing PSM Defense Generation
+
+Run the PSM optimization process:
+
+```bash
+python run.py
+```
+
+**Expected Output**:
+- Processed prompts saved to `data/defense_prompts/`
+- Filename format: `psm_target_{model}_dataset_{dataset}.jsonl`
+- Each entry contains:
+  - `instruction`: Optimized prompt with protective shield
+  - `original_instruction`: Original system prompt
+  - `utility_score`: Utility preservation score
+  - `leakage_score`: Leakage minimization score
+  - `fitness_score`: Combined fitness score
+
+**Default Configuration**:
+- `n_optimization_iterations`: 10
+- `n_initial_shields`: 5
+- `n_shields_per_step`: 5
+- `attack_samples`: 50
+- `validation_samples`: 10
+- `leakage_aggregation`: "logsumexp"
+
+### Reproducing Defense Evaluation
+
+Evaluate defenses against attacks:
+
+```bash
+python experiments/evaluate_defenses.py
+```
+
+**Expected Output**:
+- Results saved to `results/` directory
+- Excel files with detailed attack results
+- JSON summary of all experiments
+- Cached results for faster subsequent runs
+
+### Reproducing Specific Experiments
+
+For programmatic control, modify the configuration in `run.py`:
+
+```python
+config = RunPSMConfig(
+    dataset_name="unnatural-test",
+    attack_samples=50,
+    validation_samples=10,
+    target_dataset_samples=30,
+    llm_target="gpt-5-mini",
+    llm_optimizer="gpt-4o-mini",
+    llm_validation="gpt-4o",
+    llm_judge="gpt-4o-mini",
+    n_optimization_iterations=10,
+    leakage_aggregation="logsumexp",
+    logsumexp_temperature=10.0
+)
+```
+

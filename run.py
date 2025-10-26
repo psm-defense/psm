@@ -59,7 +59,6 @@ class RunPSMConfig:
     utility_penalty_weight: float = 100.0
     temperature_optimizer: float = 1
     config_file: str = "config/config.yaml"
-    # Smooth leakage aggregation parameters
     leakage_aggregation: str = "logsumexp"
     logsumexp_temperature: float = 10.0
     top_k: int = 3
