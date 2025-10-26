@@ -22,8 +22,6 @@ This repository implements **Prompt Sensitivity Minimization (PSM)**, a defense 
 - [Usage](#usage)
 - [Architecture](#architecture)
 - [Configuration](#configuration)
-- [Experiments](#experiments)
-- [Results](#results)
 - [Reproducibility](#reproducibility)
 
 ## Installation
@@ -283,62 +281,6 @@ config = ExperimentConfig(
     save_per_prompt_results=True
 )
 ```
-
-## Experiments
-
-### Dataset Structure
-
-#### Victim Prompts (`data/victim_prompts/`)
-
-JSONL format with system prompts to protect:
-```json
-{"instruction": "Your system prompt here..."}
-```
-
-Available datasets:
-- `unnatural-test.jsonl`: Test prompts
-- `system-prompt-leakage.jsonl`: Leakage test cases
-- `chatgpt-roles.jsonl`: ChatGPT role prompts
-- `sharegpt-test.jsonl`: ShareGPT test set
-- `dev.jsonl`: Development set
-
-#### Attack Prompts (`data/attack_prompts/`)
-
-JSON format with adversarial prompts:
-```json
-["attack prompt 1", "attack prompt 2", ...]
-```
-
-#### Defense Prompts (`data/defense_prompts/`)
-
-JSONL format with optimized prompts:
-```json
-{
-  "instruction": "Optimized prompt with shield",
-  "original_instruction": "Original prompt",
-  "utility_score": 0.95,
-  "leakage_score": 0.30,
-  "fitness_score": 0.30
-}
-```
-
-### Running Custom Experiments
-
-1. **Prepare your system prompts** in `data/victim_prompts/`
-2. **Configure PSM** in `run.py` or programmatically
-3. **Run optimization**: `python run.py`
-4. **Evaluate results**: `python experiments/evaluate_defenses.py`
-
-## Results
-
-### Output Files
-
-Results are saved in the `results/` directory:
-
-- `detailed_attack_results.xlsx`: Individual attack results
-- `per_prompt_results.xlsx`: Aggregated results per attack prompt
-- `experiment_summary.json`: Summary of all experiments
-- `cache.xlsx`: Cached results for reproducibility
 
 ## Reproducibility
 
